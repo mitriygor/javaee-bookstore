@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>IGNORED</title>
+    </head>
+    <body>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="content">
+                <br/>
+                #{tableData.setInventory(request)}
+                #{reviewBackingBean.setReviews(request.getParameter("isbn"))}
+                <h:panelGroup rendered="#{tableData.inventory != null}">
+                    <h:form>
+                        <div class="row" value="#{tableData.inventory}" var="inventory">
+                            <div class="medium-6 columns">
+                                <h:graphicImage library="images" name="#{tableData.inventory.isbn}.jpg" />
+                            </div>
+                            <div class="medium-6 large-5 columns">
+                                <h3>#{tableData.inventory.title} #{tableData.inventory.subtitle}</h3>
+                                <h4>#{tableData.inventory.authors}</h4>
+                                <p>ISBN: #{tableData.inventory.isbn}</p>
+                                <p>Pages: #{tableData.inventory.pages}</p>
+                                <p>Genre: <h:link value="#{tableData.inventory.genre}" outcome="genre"><f:param name="genre" value="#{tableData.inventory.genre}" />    </h:link></p>
+                                <p> <h:outputText value="#{tableData.inventory.cost}">
+                                        <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                                    </h:outputText></p>
+                                <h:commandLink value="#{msgs.addToCart}" styleClass="button large expanded" action="#{invoiceBackingBean.addInventoryToCart(tableData.inventory)}"/>
+                            </div>
+                        </div>
+                    </h:form>
+                    <hr/>
+                    <div class="column row">
+                        <div class="tabs-content" data-tabs-content="example-tabs">
+                            <div class="tabs-panel is-active" id="panel1">
+                                <h:form id="form">
+                                    <h4>Reviews</h4>
+                                    <hr/>
+                                    <h:panelGroup layout="block" id="reviewPanel"> 
+                                        <ui:repeat varStatus="loop"  value="#{reviewBackingBean.reviews}" var="review" >
+                                            <div class="media-object stack-for-small">
+                                                <div class="media-object-section">
+                                                    <h5>#{review[0]} #{review[1]}</h5>
+                                                    <h6>Rating: #{review[2]} from 5</h6>
+                                                    <p>#{review[3]}</p>
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                        </ui:repeat>                                    
+                                        <h:panelGroup  rendered="#{preRenderViewBean.logged eq true}">
+                                            <h5>My Review</h5>
+                                            <h:outputLabel for="rating" value="#{msgs.rating}" />
+                                            <h:selectOneMenu  id="rating" label="#{msgs.rating}" value="#{reviewBackingBean.review.rating}">
+                                                <f:selectItem itemValue="5" itemLabel="5" />
+                                                <f:selectItem itemValue="4" itemLabel="4" />
+                                                <f:selectItem itemValue="3" itemLabel="3" />
+                                                <f:selectItem itemValue="2" itemLabel="2" />
+                                                <f:selectItem itemValue="1" itemLabel="1" />
+                                            </h:selectOneMenu>
+                                            <h:outputLabel for="reviewtext" value="#{msgs.reviewText}" />
+                                            <h:inputTextarea value="#{reviewBackingBean.review.reviewtext}" id="reviewtext" />
+                                            <h:commandLink id="saveButton" styleClass="button" value="#{msgs.send}" >
+                                                <f:ajax  execute="@form" event="click"  render="reviewPanel" listener="#{reviewBackingBean.createReview(request)}" /> 
+                                            </h:commandLink>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+                                </h:form>                                        
+                                <h:panelGroup  rendered="#{preRenderViewBean.logged eq false}">
+                                    Please login to send a review about the book
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                    </div>
+                    #{preRenderViewBean.writeCookie(tableData.inventory)}
+                </h:panelGroup>
+                <h:panelGroup rendered="#{tableData.inventory == null}">
+                    <h1>There is no such book</h1>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

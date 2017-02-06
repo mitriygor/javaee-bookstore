@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>IGNORED</title>
+    </head>
+    <body>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="content">
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{preRenderViewBean.checkCookies}" />
+                </f:metadata>
+
+                <h:form>
+                    <div class="row column text-center">
+                        <h2>#{msgs.latestBooks}</h2>
+                        <hr/>
+                    </div>
+                    <div class="row small-up-2 large-up-4">
+                        <ui:repeat value="#{tableData.getLatestInventories()}" var="inventory">
+                            <div class="column">
+                                <h:link outcome="book" styleClass="graphic-link">
+                                    <f:param name="isbn" value="#{inventory.isbn}" />
+                                    <f:param name="genre" value="#{inventory.genre}" />
+                                    <h:graphicImage library="images" name="#{inventory.isbn}.jpg" width="300" height="400" />
+                                </h:link>
+                                <h5><h:link  value="#{inventory.title} #{inventory.subtitle}" outcome="book">
+                                        <f:param name="isbn" value="#{inventory.isbn}" />
+                                        <f:param name="genre" value="#{inventory.genre}" />
+                                    </h:link></h5>
+                                <p>#{inventory.authors}</p>
+                                <h:link value="#{inventory.genre}" outcome="genre">
+                                    <f:param name="genre" value="#{inventory.genre}" />
+                                </h:link>
+                                <p>
+                                    <h:outputText value="#{inventory.cost}">
+                                        <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                                    </h:outputText>
+                                </p>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                    <h:panelGroup rendered="#{preRenderViewBean.getGenre() != null and !preRenderViewBean.getGenre().isEmpty()}">
+                        <div class="row column text-center">
+                            <h2>#{preRenderViewBean.getGenre()}</h2>
+                            <hr/>
+                        </div>
+                        <div class="row small-up-2 medium-up-3 large-up-6">
+                            <ui:repeat value="#{tableData.getLimitedInventoriesByGenre(preRenderViewBean.getGenre())}" var="inventory">
+                                <div class="column">
+                                    <h:link outcome="book"  styleClass="graphic-link">
+                                        <f:param name="isbn" value="#{inventory.isbn}" />
+                                        <f:param name="genre" value="#{inventory.genre}" />
+                                        <h:graphicImage library="images" name="#{inventory.isbn}.jpg" width="100" />
+                                    </h:link>
+                                    <h5><h:link  value="#{inventory.title} #{inventory.subtitle}" outcome="book">
+                                            <f:param name="isbn" value="#{inventory.isbn}" />
+                                            <f:param name="genre" value="#{inventory.genre}" />
+                                        </h:link></h5>
+                                    <p>#{inventory.authors}</p>
+                                    <h:link value="#{inventory.genre}" outcome="genre">
+                                        <f:param name="genre" value="#{inventory.genre}" />
+                                    </h:link>
+                                    <p>
+                                        <h:outputText value="#{inventory.cost}">
+                                            <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                                        </h:outputText>
+                                    </p>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                    </h:panelGroup>
+                    <div class="row">
+                        <div class="row column text-center">
+                            <h3>#{msgs.otherBooks}</h3>
+                            <hr/>
+                        </div>
+                        <ui:repeat value="#{tableData.getLimitedInventoriesForFirstPage()}" var="inventory">
+                            <div class="medium-4 columns">
+                                <div class="media-object">
+                                    <div class="media-object-section">
+                                        <h:link outcome="book">
+                                            <f:param name="isbn" value="#{inventory.isbn}" />
+                                            <f:param name="genre" value="#{inventory.genre}" />
+                                            <h:graphicImage library="images" name="#{inventory.isbn}.jpg" width="100" />
+                                        </h:link>
+                                    </div>
+                                    <div class="media-object-section">
+                                        <h5><h:link  value="#{inventory.title} #{inventory.subtitle}" outcome="book">
+                                                <f:param name="isbn" value="#{inventory.isbn}" />
+                                                <f:param name="genre" value="#{inventory.genre}" />
+                                            </h:link></h5>
+                                        <p>#{inventory.authors}</p>
+                                        <h:link value="#{inventory.genre}" outcome="genre">
+                                            <f:param name="genre" value="#{inventory.genre}" />
+                                        </h:link>
+                                        <p>
+                                            <h:outputText value="#{inventory.cost}">
+                                                <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                                            </h:outputText>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+
+</html>

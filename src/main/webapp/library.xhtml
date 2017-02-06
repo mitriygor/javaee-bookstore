@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{preRenderViewBean.isLogged()}" />
+            <f:event type="preRenderView" listener="#{detailsBackingBean.addBooksToLibrary()}" />
+        </f:metadata>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <h:panelGroup   rendered="#{preRenderViewBean.logged eq true}">
+                        <div class="row">
+                            <ui:repeat value="#{detailsBackingBean.getLibrary()}" var="inventory">
+                                <div class="medium-12 columns">
+                                    <div class="media-object">
+                                        <div class="media-object-section">
+                                            <h:link outcome="book">
+                                                <f:param name="isbn" value="#{inventory.isbn}" />
+                                                <h:graphicImage library="images" name="#{inventory.isbn}.jpg" />
+                                            </h:link>
+                                        </div>
+                                        <div class="media-object-section">
+                                            <h5><h:link  value="#{inventory.title} #{inventory.subtitle}" outcome="book">
+                                                    <f:param name="isbn" value="#{inventory.isbn}" />
+                                                </h:link></h5>
+                                            <p>#{inventory.authors}</p>
+                                            <h:link value="#{inventory.genre}" outcome="genre">
+                                                <f:param name="genre" value="#{inventory.genre}" />
+                                            </h:link>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </div>
+                        <h:panelGroup rendered="#{detailsBackingBean.getCount() eq  0 }">
+                            <h5>Your library is empty</h5>
+                        </h:panelGroup>
+                    </h:panelGroup >
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

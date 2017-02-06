@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>IGNORED</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="content">
+                <h:panelGroup rendered="#{invoiceBackingBean.count > 0 }">
+                    <h:form>
+                        <div class="row">
+                            <ui:repeat value="#{invoiceBackingBean.getInventories()}" var="inventory">
+                                <div class="medium-12 columns">
+                                    <div class="media-object">
+                                        <div class="media-object-section">
+                                            <h:link outcome="book">
+                                                <f:param name="isbn" value="#{inventory.isbn}" />
+                                                <h:graphicImage library="images" name="#{inventory.isbn}.jpg" />
+                                            </h:link>
+                                        </div>
+                                        <div class="media-object-section">
+                                            <h5><h:link  value="#{inventory.title} #{inventory.subtitle}" outcome="book">
+                                                    <f:param name="isbn" value="#{inventory.isbn}" />
+                                                </h:link></h5>
+                                            <p>#{inventory.authors}</p>
+                                            <h:link value="#{inventory.genre}" outcome="genre">
+                                                <f:param name="genre" value="#{inventory.genre}" />
+                                            </h:link>
+                                            <p>
+                                                <h:outputText value="#{inventory.cost}">
+                                                    <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                                                </h:outputText>
+                                            </p>
+                                            <h:commandLink value="#{msgs.removeFromCart}" styleClass="button small expanded hollow" action="#{invoiceBackingBean.removeInventoryFromCart(inventory)}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            <div class="row column text-center">
+                                <hr/>
+                                <h4>Total</h4>
+                                #{invoiceBackingBean.calcTotalCost()}
+                                <p>
+                                  $  <h:outputText value=" #{invoiceBackingBean.getTotalCost()}">
+                                        <f:convertNumber type="currency" currencySymbol="$" locale="en_US" />
+                                    </h:outputText>
+                                </p>
+                            </div>
+                        </div>
+                        <h:link value="#{msgs.processOrder}" outcome="order" styleClass="button small expanded hollow" />
+                    </h:form>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{invoiceBackingBean.count eq  0 }">
+                    <h5>Your cart is empty</h5>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

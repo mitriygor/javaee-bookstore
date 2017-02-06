@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{msgs.pagetitle}</title>
+        <h:outputStylesheet library="css" name="foundation.min.css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="content">
+                <div class="row">
+                    <div class="medium-6 medium-centered large-4 large-centered columns">
+                        <h:form>
+                            <div class="row column log-in-form">
+                                <h4>Authorization Information</h4> <!---->
+                                <h:outputLabel for="email" value="#{msgs.email}" />                               
+                                <h:inputText id="email" label="#{msgs.email}" value="#{clientBackingBean.email}" validator="#{clientBackingBean.validateEmail}" requiredMessage="#{msgs.required}">
+                                    <f:ajax event="keyup" render="emailError"/>
+                                </h:inputText>
+                                <h:message id="emailError" for="email" style="color: red"/>
+
+                                <h:outputLabel for="password" value="#{msgs.password}" />                                
+                                <h:inputSecret id="password" label="#{msgs.password}" value="#{clientBackingBean.password}"  validator="#{clientBackingBean.validatePassword}" requiredMessage="#{msgs.required}">
+                                    <f:ajax event="keyup" render="passwordError"/>
+                                </h:inputSecret> 
+                                <h:message id="passwordError" for="password" style="color: red"/>
+
+                                <h:outputLabel for="confirmPassword" value="#{msgs.confirmPassword}" />                                
+                                <h:inputSecret id="confirmPassword" label="#{msgs.confirmPassword}" value="#{clientBackingBean.confirmPassword}"  validator="#{clientBackingBean.validateConfirmPassword}" requiredMessage="#{msgs.required}">
+                                    <f:ajax event="keyup" render="confirmPasswordError"/>
+                                </h:inputSecret> 
+                                <h:message id="confirmPasswordError" for="confirmPassword" style="color: red"/>
+
+                                <h:outputLabel for="firstname" value="#{msgs.firstname}" />                                
+                                <h:inputText id="firstname" label="#{msgs.firstname}" value="#{clientBackingBean.firstname}" requiredMessage="#{msgs.required}" validator="#{clientBackingBean.validateFirstname}">
+                                    <f:ajax event="keyup" render="firstnameError"/>
+                                </h:inputText>
+                                <h:message id="firstnameError" for="firstname" style="color: red"/>
+
+                                <h:outputLabel for="lastname" value="#{msgs.lastname}" />                                
+                                <h:inputText id="lastname" label="#{msgs.lastname}" value="#{clientBackingBean.lastname}" requiredMessage="#{msgs.required}" validator="#{clientBackingBean.validateLastname}">
+                                    <f:ajax event="keyup" render="lastnameError"/>
+                                </h:inputText>
+                                <h:message id="lastnameError" for="lastname" style="color: red"/>
+
+                                <h4>Additional information</h4>
+                                <h:outputLabel for="title" value="#{msgs.title}" />
+
+                                <h:selectOneMenu  id="rating" label="#{msgs.rating}" value="#{clientBackingBean.title}">
+                                    <f:selectItem itemValue="Mr." itemLabel="Mr." />
+                                    <f:selectItem itemValue="Miss." itemLabel="Miss." />
+                                    <f:selectItem itemValue="Ms." itemLabel="Ms." />
+                                    <f:selectItem itemValue="Mrs." itemLabel="Mrs." />
+                                    <f:selectItem itemValue="Mx." itemLabel="Mx." />
+                                </h:selectOneMenu>
+
+                                <h:outputLabel for="companyname" value="#{msgs.companyname}" />
+                                <h:inputText id="companyname" label="#{msgs.companyname}" value="#{clientBackingBean.companyname}">
+                                </h:inputText>
+                                <h4>Contact information</h4>
+                                <h:outputLabel for="address1" value="#{msgs.address1}" />
+                                <h:inputText id="address1" label="#{msgs.address1}" value="#{clientBackingBean.address1}" />
+                                <h:outputLabel for="address2" value="#{msgs.address2}" />
+                                <h:inputText id="address2" label="#{msgs.address2}" value="#{clientBackingBean.address2}" />
+                                <h:outputLabel for="city" value="#{msgs.city}" />
+                                <h:inputText id="city" label="#{msgs.city}" value="#{clientBackingBean.city}" />
+                                <h:outputLabel for="province" value="#{msgs.province}" />
+                                <h:inputText id="province" label="#{msgs.province}" value="#{clientBackingBean.province}" />
+                                <h:outputLabel for="country" value="#{msgs.country}" />
+                                <h:inputText id="country" label="#{msgs.country}" value="#{clientBackingBean.country}" />
+                                <h:outputLabel for="postalcode" value="#{msgs.postalcode}" />
+                                <h:inputText id="postalcode" label="#{msgs.postalcode}" value="#{clientBackingBean.postalcode}" />
+                                <h:outputLabel for="telhome" value="#{msgs.telhome}" />
+                                <h:inputText id="telhome" label="#{msgs.telhome}" value="#{clientBackingBean.telhome}" />
+                                <h:outputLabel for="telcel" value="#{msgs.telcel}" />
+                                <h:inputText id="telcel" label="#{msgs.telcel}" value="#{clientBackingBean.telcel}" />
+                            </div>
+                            <h:commandButton id="saveButton" styleClass="ui submit button" value="#{msgs.register}" action="#{clientBackingBean.createClient()}" />
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

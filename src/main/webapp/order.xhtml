@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>IGNORED</title>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{preRenderViewBean.isLogged()}" />
+        </f:metadata>
+
+        <f:metadata>
+            <f:viewParam name="id" value="#{inningBean.inningId}" />
+            <f:event type="preRenderView"
+                     listener="#{inningBean.initInningBeanForBallByBallScoring}" />
+        </f:metadata>
+
+        <ui:composition template="/templates/masterLayout.xhtml">
+            <ui:define name="content">
+                <h:form>
+                    <div class="row column log-in-form">
+                        <h:outputLabel for="ccname" value="#{msgs.ccname}" />
+                        <h:inputText id="ccname" label="#{msgs.ccname}" value="#{invoiceBackingBean.ccname}" validator="#{invoiceBackingBean.validateCcName}" requiredMessage="#{msgs.required}">
+                            <f:ajax event="keyup" render="ccnameError"/>
+                        </h:inputText>
+                        <h:message id="ccnameError" for="ccname" style="color: red"/>
+
+                        <h:outputLabel for="ccnumber" value="#{msgs.ccnumber}" />
+                        <h:inputText id="ccnumber" label="#{msgs.ccnumber}" value="#{invoiceBackingBean.ccname}" validator="#{invoiceBackingBean.validateCcNumber}" requiredMessage="#{msgs.required}">
+                            <f:ajax event="keyup" render="ccnumberError"/>
+                        </h:inputText>
+                        <h:message id="ccnumberError" for="ccnumber" style="color: red"/>
+
+                        <h:outputLabel for="cvv" value="#{msgs.cvv}" />
+                        <h:inputText id="cvv" label="#{msgs.cvv}" value="#{invoiceBackingBean.cvv}" validator="#{invoiceBackingBean.validateCvv}" requiredMessage="#{msgs.required}">
+                            <f:ajax event="keyup" render="cvvError"/>
+                        </h:inputText>
+                        <h:message id="cvvError" for="cvv" style="color: red"/>
+
+                        <h:outputLabel for="ccyear" value="#{msgs.year}" />
+                        <h:selectOneMenu  id="ccyear" label="#{msgs.year}" value="#{invoiceBackingBean.ccyear}">
+                            <f:selectItem itemValue="2016" itemLabel="2016" />
+                            <f:selectItem itemValue="2017" itemLabel="2017" />
+                            <f:selectItem itemValue="2018" itemLabel="2018" />
+                            <f:selectItem itemValue="2019" itemLabel="2019" />
+                            <f:selectItem itemValue="2020" itemLabel="2020" />
+                            <f:selectItem itemValue="2021" itemLabel="2021" />
+                            <f:selectItem itemValue="2022" itemLabel="2022" />
+                            <f:selectItem itemValue="2023" itemLabel="2023" />
+                            <f:selectItem itemValue="2024" itemLabel="2024" />
+                            <f:selectItem itemValue="2025" itemLabel="2025" />
+                            <f:selectItem itemValue="2026" itemLabel="2026" />
+                            <f:selectItem itemValue="2027" itemLabel="2027" />
+                            <f:selectItem itemValue="2028" itemLabel="2028" />
+                            <f:selectItem itemValue="2029" itemLabel="2029" />
+                        </h:selectOneMenu>
+                        <h:outputLabel for="ccmonth" value="#{msgs.month}" />
+                        <h:selectOneMenu  id="ccmonth" label="#{msgs.month}" value="#{invoiceBackingBean.ccmonth}">
+                            <f:selectItem itemValue="#{msgs.jan}" itemLabel="#{msgs.jan}" />
+                            <f:selectItem itemValue="#{msgs.feb}" itemLabel="#{msgs.feb}" />
+                            <f:selectItem itemValue="#{msgs.mar}" itemLabel="#{msgs.mar}" />
+                            <f:selectItem itemValue="#{msgs.apr}" itemLabel="#{msgs.apr}" />
+                            <f:selectItem itemValue="#{msgs.may}" itemLabel="#{msgs.nay}" />
+                            <f:selectItem itemValue="#{msgs.jun}" itemLabel="#{msgs.jun}" />
+                            <f:selectItem itemValue="#{msgs.jul}" itemLabel="#{msgs.jul}" />
+                            <f:selectItem itemValue="#{msgs.aug}" itemLabel="#{msgs.aug}" />
+                            <f:selectItem itemValue="#{msgs.sep}" itemLabel="#{msgs.sep}" />
+                            <f:selectItem itemValue="#{msgs.oct}" itemLabel="#{msgs.oct}" />
+                            <f:selectItem itemValue="#{msgs.nov}" itemLabel="#{msgs.nov}" />
+                            <f:selectItem itemValue="#{msgs.dec}" itemLabel="#{msgs.dec}" />
+                        </h:selectOneMenu>
+
+                        <h:commandButton id="saveButton" styleClass="button" value="#{msgs.confirm}" action="#{invoiceBackingBean.buy()}"  />
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

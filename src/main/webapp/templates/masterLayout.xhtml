@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:insert name="windowTitle" />
+        </title>
+        <h:outputStylesheet library="css" name="foundation.min.css" />
+        <h:outputStylesheet library="css" name="app.css" />
+    </h:head>
+    <h:body>
+
+        <!-- Control-Shift x -->
+        <ui:debug hotkey="x" rendered="#{initParam['javax.faces.PROJECT_STAGE'] eq 'Development'}" />
+        <f:metadata>
+            <f:event type="preRenderComponent" listener="#{preRenderViewBean.checkSession}" />
+        </f:metadata>
+
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <ul class="menu">
+                    <li class="menu-text">
+                        <h:link value="BookStoreTwo" outcome="index" styleClass="header item">
+                        </h:link>
+                    </li>
+                </ul>
+            </div>
+            <div class="top-bar-left">
+                <h:form>
+                    <ul class="menu">
+                        <li>
+                            <h:inputText id="serach" value="#{tableData.param}" />
+                        </li>
+                        <li>
+                            <h:commandButton id="searchBtn" value="#{msgs.search}" styleClass="button" action="/search.xhtml">
+                                <f:param name="req" value="#{tableData.param}" />
+                            </h:commandButton>
+                        </li>
+                    </ul>
+                </h:form>
+            </div>
+            
+            <h:panelGroup rendered="#{preRenderViewBean.logged eq false}">
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li>
+                            <h:link outcome="register">
+                                Register
+                            </h:link>
+                        </li>
+                        <li>
+                            <h:link outcome="login">
+                                Log in
+                            </h:link>
+                        </li>
+                    </ul>
+                </div>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{preRenderViewBean.logged eq true}">
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li>Hello 
+                            #{clientBackingBean.getClientName()}
+                        </li>
+                        <li> <h:link outcome="library">#{msgs.library}</h:link>
+                        </li>
+                        <li><h:form >
+                                <h:commandLink value="#{msgs.logout}"  action="#{clientBackingBean.logout()}">
+                                </h:commandLink>
+                            </h:form></li>
+                    </ul>
+                </div>
+            </h:panelGroup>
+            <div class="top-bar-right">
+                <ul class="menu">
+                    <li>
+                        <h:link outcome="cart">
+                            <h:outputText id="cart" rendered="#{invoiceBackingBean.count > 0}" value="#{invoiceBackingBean.count}" /> #{msgs.cart}</h:link>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <ui:insert name="content" />
+        <ui:debug />
+        <div class="callout large secondary">
+            <div class="row">
+                <div class="large-4 columns">
+                </div>
+                <div class="large-3 large-offset-2 columns">
+                </div>
+                <div class="large-3 columns">
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

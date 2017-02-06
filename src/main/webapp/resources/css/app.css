@@ -1,0 +1,26 @@
+.large-up-4 h5, .medium-4 h5, .large-up-6 h5  {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 250px;
+}
+
+.large-up-6 h5  {
+  max-width: 180px
+}
+
+.large-up-4 .graphic-link {
+  height: 450px;
+  display: block;
+}
+
+.large-up-6 .graphic-link {
+  height: 160px;
+  display: block;
+}
+
+
+.medium-4 {
+  min-height: 200px;
+}
