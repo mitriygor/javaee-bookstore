@@ -1,1 +1,1 @@
-# j2ee-bookstore
+# javaee-bookstore
